@@ -36,9 +36,7 @@
 		child3.innerHTML = "MUL";
 		var operation = document.createElement("select");
 		operation.setAttribute("name", "operation");
-		//option1.setAttribute("value",document.getElementById("option1").value);
 		while (form.firstChild) {
-			//if(!myNode.firstChild.isEqualNode(option1))
 			form.removeChild(form.firstChild);
 		}
 		operation.appendChild(child1);
@@ -81,7 +79,7 @@
 		<option value="Ruby">Ruby</option>
 	</select>
 	<br>Number of Input fields:
-	<input type="number" id="arg" on/>
+	<input type="number" id="arg"/>
     <form method="post" action="code" id="form"></form>
 	<button value="submit" id="button" onclick="showfields()">Submit</button>
 </body>

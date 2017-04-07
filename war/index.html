@@ -10,6 +10,10 @@
 			alert("you should enter a value for input fields");
 			return;
 		}
+		else if(arguments.value<=0){
+			alert("Enter a value greater than 0");
+			return;
+		}
 		var submit1 = document.getElementById("button");
 		submit1.remove();
 		var select = document.getElementById("lang");

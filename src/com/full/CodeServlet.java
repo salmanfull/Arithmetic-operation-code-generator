@@ -34,7 +34,6 @@ public class CodeServlet extends HttpServlet {
 			code = ResultGenerator.functionCreator(operation, 1, '*', list);
 		else if (operation.equals("sub"))
 			code = ResultGenerator.functionCreator(operation, 0, '-', list);
-		//PrintWriter out = resp.getWriter();
 		
 		req.setAttribute("code", code);
 		req.setAttribute("inputs", list);
@@ -42,12 +41,7 @@ public class CodeServlet extends HttpServlet {
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("result.jsp");
 		dispatcher.forward(req, resp);
-//		for (String line : code) {
-//			out.println(line);
-//		}
-//		out.println("------------------------------------------------------------------");
-//		out.println("Inputs : " + list);
-//		out.println("Result : " + ResultGenerator.getOutput());
+
 	}
 
 }

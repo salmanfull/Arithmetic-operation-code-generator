@@ -1,86 +1,173 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Addition</title>
-<script type="text/javascript">
-	var counter = 1;
-	function showfields() {
-		var arguments = document.getElementById("arg");
-		if(arguments.value == ''){
-			alert("you should enter a value for input fields");
-			return;
-		}
-		else if(arguments.value<=0){
-			alert("Enter a value greater than 0");
-			return;
-		}
-		var submit1 = document.getElementById("button");
-		submit1.remove();
-		var select = document.getElementById("lang");
-		var value = select.value;
-		select.setAttribute("disabled","true");
-		if (value != "Java") {
-			alert("Under Construction");
-			return;
-		}
-		var form = document.getElementById("form");
-		counter = 1;
-		var child1 = document.createElement("option");
-		child1.setAttribute("value", "add");
-		child1.innerHTML = "ADD";
-		var child2 = document.createElement("option");
-		child2.setAttribute("value", "sub");
-		child2.innerHTML = "SUB";
-		var child3 = document.createElement("option");
-		child3.setAttribute("value", "mul");
-		child3.innerHTML = "MUL";
-		var operation = document.createElement("select");
-		operation.setAttribute("name", "operation");
-		while (form.firstChild) {
-			form.removeChild(form.firstChild);
-		}
-		operation.appendChild(child1);
-		operation.appendChild(child2);
-		operation.appendChild(child3);
-		form.appendChild(operation);
-		arguments.setAttribute("readonly","readonly");
-		var arg = arguments.value;
-		var noOfArgs = document.createElement("input");
-		noOfArgs.setAttribute("name", "args");
-		noOfArgs.setAttribute("type", "hidden");
-		noOfArgs.setAttribute("value", arg);
-		form.appendChild(noOfArgs);
-		var br = document.createElement("br");
-		form.appendChild(br);
-		for (var i = 0; i < arg; i++) {
-			var form = document.getElementById("form");
-			var text = document.createElement("span");
-			text.innerHTML = "number" + counter + " : ";
-			form.appendChild(text);
-			var e = document.createElement("Input");
-			e.setAttribute("required", "required");
-			e.setAttribute("type", "number");
-			e.setAttribute("name", "number" + counter++);
-			form.appendChild(e);
-			var br = document.createElement("br");
-			form.appendChild(br);
-		}
-		var submit = document.createElement("input");
-		submit.setAttribute("type", "submit");
-		form.appendChild(submit);
-	}
-</script>
-</head>
-<body>
-	Select the language:
-	<select id="lang">
-		<option value="Java">Java</option>
-		<option value="Python">Python</option>
-		<option value="Ruby">Ruby</option>
-	</select>
-	<br>Number of Input fields:
-	<input type="number" id="arg"/>
-    <form method="post" action="code" id="form"></form>
-	<button value="submit" id="button" onclick="showfields()">Submit</button>
-</body>
+    <head>
+        <title>Code</title>
+
+        <script>
+
+            var language;
+            var numberOfInputs;
+            var operator;
+            var success = true;
+            
+            function checkLanguage() {
+            	language = document.getElementById("lang");
+            	var langError = document.getElementById("langError");
+            	if(language.value != "Java"){
+            		success = false;
+            		langError.innerHTML = "Under Construction";
+            	}
+            	else {
+            		success = true;
+            		langError.innerHTML = "";
+            	}
+            }
+            
+            function checkOperator() {
+
+                var operatorValue = document.getElementById("operator").value;
+                var inputField = document.getElementById("Args");
+
+                if(operatorValue === 'div'){
+                    inputField.value = "2";
+                    inputField.setAttribute("readonly", "readonly");
+                    document.getElementById("ArgsError").innerHTML = '';
+                } else {
+                    inputField.removeAttribute("readonly");
+                }
+
+            }
+            
+            function onSubmit() {
+                operator = document.getElementById("operator").value;
+                
+                var spanInput = document.getElementById("ArgsError");
+                spanInput.innerHTML = '';
+
+                var spanLanguage = document.getElementById("langError");
+                spanLanguage.innerHTML = '';
+                
+                checkLanguage();
+                numberOfInputs = document.getElementById("Args").value;
+
+                if(numberOfInputs === '') {
+                    spanInput.innerHTML = "This field cannot be empty..."
+                    success = false;
+                } else if((numberOfInputs < 1) || (numberOfInputs > 20)) {
+                    spanInput.innerHTML = "Please enter a number between 1 and 20";
+                    success = false;
+                }
+
+                if(success) {
+
+                    var languageField = document.getElementById("lang");
+                    languageField.setAttribute("disabled", "disabled");
+
+                    var inputsField = document.getElementById("Args");
+                    inputsField.setAttribute("readonly", "readonly");
+
+                    var operatorField = document.getElementById("operator");
+                    operatorField.setAttribute("disabled", "disabled");
+
+                    createAndValidateForm();
+
+                } else {
+                    return;
+                }
+                    
+            }
+
+            function createAndValidateForm() {
+
+                document.getElementById("button").remove();
+                var form = document.getElementById("form");
+                var counter;
+                var name = "number";
+
+                for(counter = 1; counter <= numberOfInputs; counter++) {
+
+                    var span = document.createElement("span");
+                    if((counter === 1) && (operator === 'div')) {
+                    	span.innerHTML = "Dividend: "
+                    } else if((counter === 2) && (operator === 'div')) {
+                    	span.innerHTML = "Divisor : "
+                    } else {
+                    	span.innerHTML = "Number "+ counter +": ";	
+                    }
+
+                    var input = document.createElement("input");
+                    input.setAttribute("type", "number");
+                    input.setAttribute("name", name+counter);
+                    input.setAttribute("required", "required");
+
+                    if(counter === 1) {
+                        input.setAttribute("autofocus", "autofocos");
+                    }
+
+                    if((counter === 2) && (operator === 'div')) {
+                        input.setAttribute("min", "1");
+                    }
+
+                    var lineBreak = document.createElement("br");
+
+                    form.appendChild(span);
+                    form.appendChild(input);
+                    form.appendChild(lineBreak);
+                }
+
+                var languageField = document.createElement("input");
+                languageField.setAttribute("type", "hidden");
+                languageField.setAttribute("name", "language");
+                languageField.setAttribute("value", language);
+
+                var numberOfInputField = document.createElement("input");
+                numberOfInputField.setAttribute("type", "hidden");
+                numberOfInputField.setAttribute("name", "numberOfInputs");
+                numberOfInputField.setAttribute("value", numberOfInputs);
+
+                var operatorField = document.createElement("input");
+                operatorField.setAttribute("type", "hidden");
+                operatorField.setAttribute("name", "operator");
+                operatorField.setAttribute("value", operator);
+
+                var buttonField = document.createElement("input");
+                buttonField.setAttribute("type", "submit");
+                buttonField.setAttribute("value", "Submit");
+
+                form.appendChild(languageField);
+                form.appendChild(numberOfInputField);
+                form.appendChild(operatorField);
+                form.appendChild(buttonField);
+
+            }
+
+        </script>
+
+    </head>
+    <body>
+        
+        Select the language :
+        <select id="lang" onchange="checkLanguage()">
+            <option value="Java">Java</option>
+            <option value="Python">Python</option>
+            <option value="Ruby">Ruby</option>
+        </select>
+        <span id="langError" style="color: red"></span>
+
+        <br>Operation :
+        <select id="operator" onchange="checkOperator()">
+            <option value="add">ADD</option>
+            <option value="sub">SUB</option>
+            <option value="mul">MUL</option>
+            <option value="div">DIV</option>
+        </select>
+
+        <br>Number of Input fields: 
+        <input type="number" id="Args" min="1" max="20" />
+        <span id="ArgsError" style="color: red"></span><br>
+        <h1 id="underConstruction"></h1>
+        <button value="submit" id="button" onclick="onSubmit()">Submit</button><br><br>
+        <form method="POST" action="code" id="form"></form>
+
+    </body>
 </html>

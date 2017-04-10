@@ -18,8 +18,8 @@ public class CodeServlet extends HttpServlet {
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String operation = req.getParameter("operation");
-		int args = Integer.parseInt(req.getParameter("args"));
+		String operation = req.getParameter("operator");
+		int args = Integer.parseInt(req.getParameter("numberOfInputs"));
 		String[] code = new String[1];
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		int count = 1;
@@ -34,6 +34,8 @@ public class CodeServlet extends HttpServlet {
 			code = ResultGenerator.functionCreator(operation, 1, '*', list);
 		else if (operation.equals("sub"))
 			code = ResultGenerator.functionCreator(operation, 0, '-', list);
+		else if (operation.equals("div"))
+			code = ResultGenerator.functionCreatorForDiv(list.get(0), list.get(1));
 		
 		req.setAttribute("code", code);
 		req.setAttribute("inputs", list);

@@ -21,6 +21,17 @@ public class ResultGenerator {
 		function[6] = "}";
 		return function;
 	}
+	public static String[] functionCreatorForDiv(int dividend, int divisor) {
+		output  = dividend / divisor;
+		String[] function = new String[4];
+		function[0] = "public static int div(int dividend, int divisor) {";
+		function[1] = "	 int result= dividend / divisor;";
+		function[2] = "	 return result;";
+		function[3] = "}";
+		return function;
+	}
+	
+	
 
 	public static void calculateResult(String op, int startValue, ArrayList<Integer> list) {
 		long result = startValue;

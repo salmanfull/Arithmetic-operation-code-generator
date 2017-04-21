@@ -30,15 +30,7 @@ public class ResultGenerator {
 		String [] codeArray = code.toArray(new String[code.size()]);
 
 		return codeArray;
-//		String[] function = new String[7];
-//		function[0] = "public static long " + op + "(int... numbers) {";
-//		function[1] = "	int result=" + (op.equals("sub") ? "2 * numbers[0]" : "" + startValue) + ";";
-//		function[2] = "	for(int number : numbers) {";
-//		function[3] = "		result " + operand + "= number;";
-//		function[4] = "    }";
-//		function[5] = "	return result;";
-//		function[6] = "}";
-//		return function;
+
 	}
 	public static String[] functionCreatorForDiv(int dividend, int divisor) {
 		output  = dividend / divisor;

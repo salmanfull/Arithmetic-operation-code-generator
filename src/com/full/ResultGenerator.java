@@ -11,24 +11,43 @@ public class ResultGenerator {
 
 	public static String[] functionCreator(String op, int startValue, char operand, ArrayList<Integer> list) {
 		calculateResult(op, startValue, list);
-		String[] function = new String[7];
-		function[0] = "public static int " + op + "(int... numbers) {";
-		function[1] = "	int result=" + (op.equals("sub") ? "numbers[0]" : "" + startValue) + ";";
-		function[2] = "	for(int number : numbers) {";
-		function[3] = "		result " + operand + "= number;";
-		function[4] = "    }";
-		function[5] = "	return result;";
-		function[6] = "}";
-		return function;
+		ArrayList<String> code = new ArrayList<String>();
+		if(list.size()==2){
+		code.add("public static long " + op + "(int number1, int number2) {");
+		code.add("  return number1 " +operand + " number2;");
+		code.add("}");
+		}
+		else {
+			code.add("public static long " + op + "(int... numbers) {");
+			code.add("  long result = " + (op.equals("sub") ? "numbers[0]": startValue) +";");
+			code.add("  int i = " + (op.equals("sub") ? "1" : "0") +";");
+			code.add("  while(i<numbers.length) {");
+			code.add("     result " + operand + " = numbers[i];");
+			code.add("  }");
+			code.add("   return result;");
+			code.add("}");
+		}
+		String [] codeArray = code.toArray(new String[code.size()]);
+
+		return codeArray;
+//		String[] function = new String[7];
+//		function[0] = "public static long " + op + "(int... numbers) {";
+//		function[1] = "	int result=" + (op.equals("sub") ? "2 * numbers[0]" : "" + startValue) + ";";
+//		function[2] = "	for(int number : numbers) {";
+//		function[3] = "		result " + operand + "= number;";
+//		function[4] = "    }";
+//		function[5] = "	return result;";
+//		function[6] = "}";
+//		return function;
 	}
 	public static String[] functionCreatorForDiv(int dividend, int divisor) {
 		output  = dividend / divisor;
-		String[] function = new String[4];
-		function[0] = "public static int div(int dividend, int divisor) {";
-		function[1] = "	 int result= dividend / divisor;";
-		function[2] = "	 return result;";
-		function[3] = "}";
-		return function;
+		String[] code = new String[4];
+		code[0] = "public static int div(int dividend, int divisor) {";
+		code[1] = "	 int result= dividend / divisor;";
+		code[2] = "	 return result;";
+		code[3] = "}";
+		return code;
 	}
 	
 	
